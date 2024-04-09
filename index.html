@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300;1,300&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Josefin Sans", sans-serif;
+        }
+
+        .mainDiv {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background-color: #3498db;
+        }
+
+        .centerDiv {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        h1 {
+            text-transform: capitalize;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ecf0f1;
+            text-shadow: 1px 2px 3px #2980b9;
+            font-size: 2.1rem;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        textarea {
+            padding: 1vw;
+            background-color: #444;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+            border-radius: 10px 10px 0 0;
+            border: 20px solid #34495e;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mainDiv">
+        <div class="centerDiv">
+            <h1>
+                Welcome to Typing Test
+            </h1>
+            <h2 id="msg">
+
+            </h2>
+            <br>
+            <textarea name="" id="myWords" cols="100" rows="10" placeholder="Remember,be nice"></textarea>
+            <br>
+            <button id="btn" ,class="mainbtn">Start</button>
+        </div>
+    </div>
+    <script>
+        const sentences = [
+            "The quick brown fox jumps over the lazy dog.",
+            "Pack my box with five dozen liquor jugs.",
+            "The five boxing wizards jump quickly.",
+            "How razorback-jumping frogs can level six piqued gymnasts!",
+            "Amazingly few discotheques provide jukeboxes.",
+            "Waltz, nymph, for quick jigs vex Bud.",
+            "Sphinx of black quartz, judge my vow.",
+            "Jackdaws love my big sphinx of quartz.",
+            "Crazy Fredericka bought many very exquisite opal jewels.",
+            "Six big juicy steaks sizzled in a pan as five workmen left the quarry."
+        ];
+        const msg = document.getElementById("msg");
+        const typeWords = document.getElementById("myWords");
+        const btn = document.getElementById("btn");
+        let start, end;
+
+        const playGames = () => {
+            let randomNumber = Math.floor(Math.random() * sentences.length);
+            msg.innerText = sentences[randomNumber];
+            let date = new Date();
+            start = date.getTime();
+            btn.innerText = "Done";
+        }
+
+        const wordscounter = (data) => {
+            let response = data.split(" ").length;
+            return response;
+        }
+
+        const compareWords = (str1, str2) => {
+            let response1 = str1.split(" ");
+            let response2 = str2.split(" ");
+            let count = 0;
+            response1.forEach(function (item, index) {
+                if (item === response2[index]) {
+                    count++;
+                }
+            })
+            let errorWords = response1.length - count;
+
+            return (errorWords + " correct out of " + response1.length + " words and the total number of errors is " + count + ".");
+        }
+
+        const endPlay = () => {
+            let dates = new Date();
+            end = dates.getTime();
+            btn.innerText = "Start";
+            let total = ((end - start) / 1000);
+            let sen = typeWords.value;
+            let wordscount = wordscounter(sen);
+            let speed = Math.round((wordscount / total) * 60);
+            let finalizing = "You typed at " + speed + " words per minute. ";
+            finalizing += compareWords(msg.innerText, sen);
+            msg.innerText = finalizing;
+        }
+
+        btn.addEventListener('click', () => {
+            if (btn.innerText === "Start") {
+                typeWords.disabled = false;
+                playGames();
+            } else if (btn.innerText === "Done") {
+                typeWords.disabled = true;
+                typeWords.value = "";
+                endPlay();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
