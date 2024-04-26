@@ -1,3 +1,4 @@
+User
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,7 +68,8 @@
 
             </h2>
             <br>
-            <textarea name="" id="myWords" cols="100" rows="10" placeholder="Remember,be nice"></textarea>
+            <textarea name="" id="myWords" cols="100" rows="10" placeholder="Remember,be nice"
+                value="tyoe heer"></textarea>
             <br>
             <button id="btn" ,class="mainbtn">Start</button>
         </div>
@@ -112,7 +114,7 @@
                     count++;
                 }
             })
-            let errorWords = response1.length - count;
+            let errorWords = response1.length;
 
             return (errorWords + " correct out of " + response1.length + " words and the total number of errors is " + count + ".");
         }
@@ -122,11 +124,15 @@
             end = dates.getTime();
             btn.innerText = "Start";
             let total = ((end - start) / 1000);
-            let sen = typeWords.value;
+            let sen = typeWords.value; // Retrieve the textarea value before disabling it
+            typeWords.disabled = true; // Disable the textarea after retrieving its value
+            typeWords.value = ""; // Clear the textarea
             let wordscount = wordscounter(sen);
             let speed = Math.round((wordscount / total) * 60);
-            let finalizing = "You typed at " + speed + " words per minute. ";
+            let finalizing = "You can type at " + speed + " words per minute. ";
             finalizing += compareWords(msg.innerText, sen);
+            
+
             msg.innerText = finalizing;
         }
 
@@ -135,7 +141,7 @@
                 typeWords.disabled = false;
                 playGames();
             } else if (btn.innerText === "Done") {
-                typeWords.disabled = true;
+                typeWords.diasabled = true;
                 typeWords.value = "";
                 endPlay();
             }
